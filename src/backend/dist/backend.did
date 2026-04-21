@@ -1,0 +1,116 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type PlaceOrderRequest = 
+ record {
+   customerName: text;
+   customerPhone: text;
+   deliveryAddress: text;
+   items: vec record {
+                MenuItemId;
+                nat;
+              };
+   paymentMethod: text;
+ };
+type OrderStatus = 
+ variant {
+   Baking;
+   Delivered;
+   OutForDelivery;
+   Preparing;
+   Ready;
+ };
+type OrderPublic = 
+ record {
+   customerName: text;
+   customerPhone: text;
+   deliveryAddress: text;
+   id: OrderId;
+   items: vec OrderItem;
+   orderNumber: text;
+   paymentMethod: text;
+   status: OrderStatus;
+   timestamp: Timestamp;
+   totalAmount: nat;
+ };
+type OrderItem = 
+ record {
+   itemId: MenuItemId;
+   name: text;
+   price: nat;
+   quantity: nat;
+ };
+type OrderId = nat;
+type MenuItemId = nat;
+type MenuItem = 
+ record {
+   available: bool;
+   category: MenuCategory;
+   description: text;
+   id: MenuItemId;
+   image: ExternalBlob;
+   name: text;
+   price: nat;
+ };
+type MenuCategory = 
+ variant {
+   Beverages;
+   Burger;
+   Maggi;
+   Momos;
+   Pizza;
+   Sandwiches;
+ };
+type ExternalBlob = blob;
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  getMenuItems: () -> (vec MenuItem) query;
+  getMenuItemsByCategory: (category: MenuCategory) -> (vec MenuItem) query;
+  getOrder: (id: OrderId) -> (opt OrderPublic) query;
+  getOrderStatus: (id: OrderId) -> (opt OrderStatus) query;
+  getOrdersByStatus: (status: OrderStatus) -> (vec OrderPublic) query;
+  placeOrder: (request: PlaceOrderRequest) -> (OrderPublic);
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateOrderStatus: (id: OrderId, newStatus: OrderStatus) -> (bool);
+}

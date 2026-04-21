@@ -1,0 +1,57 @@
+// Version: 1.0.0
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__671167343 = Blob;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type MenuCategory__1071165807 =
+  {#Beverages; #Burger; #Maggi; #Momos; #Pizza; #Sandwiches};
+type MenuItemId__18119667 = Nat;
+type MenuItem__877995127 =
+  {
+    available : Bool;
+    category : MenuCategory__1071165807;
+    description : Text;
+    id : MenuItemId__18119667;
+    image : ExternalBlob__671167343;
+    name : Text;
+    price : Nat
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OrderId__197865225 = Nat;
+type OrderItem__416041571 =
+  {itemId : MenuItemId__18119667; name : Text; price : Nat; quantity : Nat};
+type OrderStatus__409844121 =
+  {#Baking; #Delivered; #OutForDelivery; #Preparing; #Ready};
+type Order__741428601 =
+  {
+    customerName : Text;
+    customerPhone : Text;
+    deliveryAddress : Text;
+    id : OrderId__197865225;
+    items : [OrderItem__416041571];
+    orderNumber : Text;
+    paymentMethod : Text;
+    var status : OrderStatus__409844121;
+    timestamp : Timestamp__301639476;
+    totalAmount : Nat
+  };
+type Timestamp__301639476 = Int;
+actor {
+  stable menuItems :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?MenuItem__877995127]];
+      var elementIndex : Nat__490723111
+    };
+  stable var nextOrderId : Nat;
+  stable orders :
+    {
+      var root : Node__46230540<OrderId__197865225, Order__741428601>;
+      var size : Nat__490723111
+    }
+};

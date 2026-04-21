@@ -1,0 +1,24 @@
+{
+  "overview": "Madhvas Foods is a full-featured online food delivery app inspired by Dominos and Swiggy. Browse a menu of pizza, burgers, momos, maggi, sandwiches, and beverages, add items to your cart, place orders, and track them live through every stage from preparation to delivery. Restaurant owners get SMS notifications for every new order.",
+  "features": [
+    "Categorized menu with 6 food categories and unique photos for each item",
+    "Shopping cart with quantity controls, subtotal, tax, and delivery fee",
+    "Guest checkout with delivery address and payment method selection",
+    "Live order status tracking: Preparing → Baking → Ready → Out for Delivery → Delivered",
+    "SMS notification to restaurant (8287286500) on every new order",
+    "Order confirmation with order number, time estimate, and item summary",
+    "Responsive design optimized for mobile and desktop",
+    "Professional Dominos/Swiggy-style UI with rich food photography"
+  ],
+  "category": "food-delivery",
+  "tags": [
+    "food-delivery",
+    "restaurant",
+    "ordering",
+    "menu",
+    "tracking",
+    "sms-notifications",
+    "madhvas-foods"
+  ],
+  "last_updated": "2026-04-21T12:33:22.854Z"
+}
